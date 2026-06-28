@@ -1,0 +1,30 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Xcode
+      uses: actions/setup-xcode@v3
+      with:
+        xcode-version: latest-stable
+
+    - name: Build app
+      run: |
+        xcodebuild -project DiWall.xcodeproj -scheme DiWall -configuration Release -sdk iphoneos archive -archivePath ./DiWall.xcarchive
+        xcodebuild -exportArchive -archivePath ./DiWall.xcarchive -exportPath ./DiWall -exportOptionsPlist ./ExportOptions.plist
+
+    - name: Upload IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: DiWall
+        path: ./DiWall/*.ipa
