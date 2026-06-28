@@ -1,0 +1,15 @@
+name: Build DiWall
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build DiWall
+        run: |
+          swift build -c release
