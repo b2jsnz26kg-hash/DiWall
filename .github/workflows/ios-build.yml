@@ -10,6 +10,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build DiWall
+      - name: Check files
         run: |
-          swift build -c release
+          ls -la
+          ls -la Sources/DiWall/
+      - name: Compile code
+        run: |
+          swiftc Sources/DiWall/*.swift
